@@ -30,41 +30,41 @@
     <main class="main-content container">
         <div class="booking-form">
             <h3>Booking Flights</h3>
-            <div class="input-group">
+            <div id="booking" class="input-group">
                 <label for="">Flying From</label>
                 <input class="inp-style" type="text" name="" placeholder="Dhake, Bangladesh">
             </div>
-            <div class="input-group">
+            <div id="booking" class="input-group">
                 <label for="">Flying To</label>
                 <input class="inp-style" type="text" name="" placeholder="New York, United States">
             </div>
             <div class="inputs">
-                <div class="input-group">
+                <div id="booking" class="input-group">
                     <label" for="">Departure</label>
                     <input class="inp-style" type="date" name="">
                 </div>
-                <div class="input-group">
+                <div id="booking" class="input-group">
                     <label for="">Return</label>
                     <input class="inp-style" type="date" name="">
                 </div>
             </div>
             <div class="input-group f-class">
                 <div>
-                    <label for="">First Class ($150)</label>
-                    <input class="inp-style inp-width" type="number" name="">
+                    <label for="">First Class($150<span id="all-first-class-price"></span>)</label>
+                    <input id="first-class-ticket" class="inp-style inp-width" type="text" name="" value="0">
                 </div>
                 <div class="plus-minus-btn">
-                    <p>+ -</p>
+                    <p><span onclick="airTicket(true)" class="bookingsit">+</span> <span onclick="airTicket(false)" class="bookingsit">-</span></p>
                 </div>
             </div>
             
             <div class="input-group f-class">
                 <div>
-                    <label for="">Economy ($100)</label>
-                    <input class="inp-style inp-width" type="number" name="">
+                    <label for="">Economy ($100<span id="all-economy-class-price"></span>)</label>
+                    <input id="economy-class-ticket" class="inp-style inp-width" type="text" name="" value="0">
                 </div>
                 <div class="plus-minus-btn">
-                    <p> <span>+</span> <span>-</span> </p>
+                    <p><span onclick="airBooking(true)" class="bookingsit">+</span> <span onclick="airBooking(false)" class="bookingsit">-</span></p>
                 </div>
             </div>
             <div class="calculations">
@@ -73,7 +73,7 @@
                         <p>Subtotal</p>
                     </div>
                     <div class="right">
-                        <p>$500</p>
+                        <p>$<span id="sub-total">0</span></p>
                     </div>
                 </div>
 
@@ -82,7 +82,7 @@
                         <p>Charge 10% VAT</p>
                     </div>
                     <div class="right">
-                        <p>$50</p>
+                        <p>$<span id="ticket-vat">0</span></p>
                     </div>
                 </div>
                 <hr>
@@ -91,11 +91,11 @@
                         <h4>Total</h4>
                     </div>
                     <div class="right">
-                        <p>$550</p>
+                        <p>$<span id="total-ticket-price">0</span></p>
                     </div>
                 </div>
             </div>
-            <button class="btn-style">Book Now</button>
+            <button onclick="permission()" class="btn-style">Book Now</button>
         </div>
 
         <div class="booking-content">
@@ -104,7 +104,70 @@
         </div>
     </section>
 
-    <!--Thank You-->
+    <script>
+        function airTicket(isIncrease){
+           const firstClassTicket = document.getElementById("first-class-ticket");
+           const firstClassTicketNumber = parseInt(firstClassTicket.value);
+        let totalTicketNumber = firstClassTicketNumber;
+        if (isIncrease== true){
+            totalTicketNumber = firstClassTicketNumber + 1;
+        }
+        if (isIncrease== false && firstClassTicketNumber > 0){
+            totalTicketNumber = firstClassTicketNumber - 1;
+        }
+           firstClassTicket.value = totalTicketNumber;
+           const firstClassTicketPrice = totalTicketNumber * 150 ;
+         document.getElementById("all-first-class-price").innerText = firstClassTicketPrice; 
+         calculateTotal()
+        }
+
+
+        function airBooking(isIncrease){
+           const economyClassTicket = document.getElementById("economy-class-ticket");
+           const economyClassTicketNumber = parseInt(economyClassTicket.value);
+        //    const totalTicketNumber = firstClassTicketNumber - 1;
+        let totalTicketNumber = economyClassTicketNumber;
+        if (isIncrease== true){
+            totalTicketNumber = economyClassTicketNumber + 1;
+        }
+
+        if (isIncrease== false && economyClassTicketNumber > 0){
+            totalTicketNumber = economyClassTicketNumber - 1;
+        }
+        economyClassTicket.value = totalTicketNumber;
+           const economyClassTicketPrice = totalTicketNumber * 100 ;
+         document.getElementById("all-economy-class-price").innerText = economyClassTicketPrice; 
+         calculateTotal()
+        }
+
+
+        function calculateTotal(){
+           const firstClassTicket = document.getElementById("first-class-ticket");
+           const firstClassTicketNumber = parseInt(firstClassTicket.value);
+
+           const economyClassTicket = document.getElementById("economy-class-ticket");
+           const economyClassTicketNumber = parseInt(economyClassTicket.value);
+
+           const subTotal = firstClassTicketNumber*150 + economyClassTicketNumber*100;
+           document.getElementById("sub-total").innerText = subTotal;
+
+           const ticketVat = subTotal * 0.1;
+           document.getElementById("ticket-vat").innerText = ticketVat;
+
+           const totalTicketPrice = subTotal + ticketVat;
+           document.getElementById("total-ticket-price").innerText = totalTicketPrice;
+        }
+
+        function permission(){
+            const input_text = document.getElementById("booking").innerText;
+            if ( input_text.value == ""){
+                alert("please fill in input gaps");
+            }
+            else{
+                alert("welcome to your safe journey");
+            }
+        }
+    </script>
 </body>
 
 </html>
